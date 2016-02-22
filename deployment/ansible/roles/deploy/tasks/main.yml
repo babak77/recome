@@ -1,2 +1,17 @@
+- name: Install Virtualenv
+  pip: name=virtualenv executable=pip3
+
 - name: Setup Virtualenv
-  pip: virtualenv={{ virtualenv_path }} requirements={{ virtualenv_path }}/requirements.txt
+  pip: virtualenv={{ virtualenv_path }}  requirements={{ virtualenv_path }}/requirements.txt executable=pip3
+
+- name: virtualenv activate
+  shell: source {{ virtualenv_path }}/bin/activate
+  args:
+     executable: /bin/bash
+
+
+#- name: Django syncdb
+#  django_manage: command=syncdb app_path={{ virtualenv_path }}/{{ app_name }} virtualenv={{ virtualenv_path }}
+
+- name: Django migrate
+  django_manage: command=migrate app_path={{ virtualenv_path }}/{{ app_name }} virtualenv={{ virtualenv_path }}
