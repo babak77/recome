@@ -27,6 +27,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Email settings TO CONSOLE 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
+DEFAULT_FROM_EMAIL = 'testing@example.com'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False 
+EMAIL_PORT = 1025
+
+# Email settings TO GMAIL 
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'yourgmail@gmail.com'
+# EMAIL_HOST_PASSWORD = 'pass'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+
 
 # Application definition
 
@@ -35,9 +50,14 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'accounts',
+    # third-party apps
+    'crispy_forms',
+    'registration',
+    # my apps
+    'contact',
     'movies',
 ]
 
@@ -124,5 +144,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_in_env", "static_root")
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_in_env", "media_root")
+
+# django registration redux settings
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True
+SITE_ID = 1
+LOGIN_REDIRECT_URL = "/home"
+
+# django crispy forms
+CRISPY_TEMPLATE_PACK = 'bootstrap3' 

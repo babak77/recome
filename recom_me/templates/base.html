@@ -1,77 +1,47 @@
+{% load staticfiles %}
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Bootstrap | {% block title %}Untitled{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} Recome-Me {% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <!-- Le styles -->
-    <link href="{{STATIC_URL}}css/bootstrap.css" rel="stylesheet">
+    {% include 'head_css.html' %}
     <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
+      {% block style %}
+      
+      {% endblock style %}
     </style>
-    <link href="{{STATIC_URL}}css/bootstrap-responsive.css" rel="stylesheet">
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <script src="{{STATIC_URL}}js/jquery-1.8.1.min.js" type="text/javascript"></script>
     {% block extrahead %}
     {% endblock %}
-    <script type="text/javascript">
-    $(function(){
-    {% block jquery %}
-    {% endblock %}
-    });
-    </script>
-  </head>
 
-  <body>
-    {% if user.is_authenticated %}
-    <p>Welcome, {{ user.username }}  <a href="{% url 'accounts:logout' %}">[logout]</a></p>
-{% else %}
-    <p>Welcome, Guest <a href="{% url 'accounts:login' %}">[login]</a></p>
-{% endif %}
+    
+   </head>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="/">Bootstrap</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="/">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
+   <body>
 
-    <div id="messages">
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-{{message.tags}}">
-            <a class="close" data-dismiss="alert">×</a>
-            {{message}}
-          </div>
-        {% endfor %}
-      {% endif %}
-    </div>
+      
+<!-- Include the nav bar-->
+{% include "static_navbar.html" %}
+
+    {% block pageheader %}
+        
+    {% endblock pageheader %}
 
     <div class="container">
-    {% block content %}
-    {% endblock %}
+
+       	{% block content %}
+       	
+        {% endblock content%}
+  
     </div> <!-- /container -->
-  </body>
+
+
+    {% include 'javascript.html' %}
+   </body>
 </html>

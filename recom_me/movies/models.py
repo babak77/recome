@@ -5,7 +5,8 @@ from django.utils import timezone
 class Gener(models.Model):
 	name = models.CharField('gener', max_length=50)
 	desc = models.CharField('gener description', max_length=200, blank=True, null=True)
-
+	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False) # Creation time
+	update = models.DateTimeField(auto_now_add=False, auto_now=True) # Update time
 	def __str__(self):
 		return self.name
 
@@ -19,7 +20,8 @@ class Actor(models.Model):
 	place_of_birth = models.CharField(max_length=200, blank=True, null=True)
 	place_of_death = models.CharField(max_length=200, blank=True, null=True)
 	biography = models.TextField(blank=True, null=True)
-
+	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+	update = models.DateTimeField(auto_now_add=False, auto_now=True)
 	def __str__(self):
 		return self.lastname
 
@@ -33,7 +35,8 @@ class Director(models.Model):
 	place_of_birth = models.CharField(max_length=200, blank=True, null=True)
 	place_of_death = models.CharField(max_length=200, blank=True, null=True)
 	biography = models.TextField(blank=True, null=True)
-
+	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+	update = models.DateTimeField(auto_now_add=False, auto_now=True)
 	def __str__(self):
 		return self.lastname
 
@@ -47,7 +50,8 @@ class Writer(models.Model):
 	place_of_birth = models.CharField(max_length=200, blank=True, null=True)
 	place_of_death = models.CharField(max_length=200, blank=True, null=True)
 	biography = models.TextField(blank=True, null=True)
-
+	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+	update = models.DateTimeField(auto_now_add=False, auto_now=True)
 	def __str__(self):
 		return self.lastname
 
@@ -60,7 +64,8 @@ class Movie(models.Model):
 	writers = models.ManyToManyField(Writer)
 	actors = models.ManyToManyField(Actor)
 	description = models.TextField(blank=True, null=True)
-
+	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+	update = models.DateTimeField(auto_now_add=False, auto_now=True)
 	def __str__(self):
 		return self.title
 

@@ -1,0 +1,11 @@
+body {
+  min-height: 1000px;
+}
+
+.navbar-default .navbar-brand {
+    color: #777;
+}
+
+.navbar-default .navbar-brand:hover {
+    color: #777;
+}
