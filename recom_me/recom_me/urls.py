@@ -20,6 +20,8 @@ from django.contrib import admin
 
 from django.views.generic import TemplateView 
 
+
+
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name="home.html"), name='home'),
     url(r'^admin/', admin.site.urls),
@@ -31,6 +33,10 @@ urlpatterns = [
     url(r'^movies/', include('movies.urls')),
 
     url(r'^accounts/', include('registration.backends.default.urls')),
+
+    url(r'^autocomplete/', include('autocomplete_light.urls')),
+    
+    
 ] 
 
 if settings.DEBUG:
