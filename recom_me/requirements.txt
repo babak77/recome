@@ -1,0 +1,12 @@
+Django==1.9.2
+django-autocomplete-light==2.3.1
+django-crispy-forms==1.6.0
+django-registration-redux==1.4
+isodate==0.5.4
+keepalive==0.5
+psycopg2==2.6.1
+pyparsing==2.1.0
+rdflib==4.2.1
+six==1.10.0
+SPARQLWrapper==1.7.6
+wheel==0.29.0

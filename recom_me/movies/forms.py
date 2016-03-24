@@ -1,14 +1,25 @@
 from django import forms
 
-from .models import  Movie ,Actor
+from .models import  Movie ,Person, Gener
 
 import autocomplete_light
 
-class ActorForm(forms.ModelForm):
+class PersonForm(forms.ModelForm):
 	class Meta:
-		model = Actor
-		fields = ['firstname','lastname', 'gender', 'age', 'date_of_birth', 'date_of_death', 
-					'place_of_birth', 'place_of_death', 'biography']
+		model = Person
+		exclude = ['timestamp', 'update']
+		# fields = ['firstname','lastname', 'gender', 'occupations','age', 'date_of_birth', 'date_of_death', 
+		# 			'place_of_birth', 'place_of_death', 'biography']
+		widgets = {
+			'date_of_birth': forms.DateInput(format=('%Y-%m-%d'), 
+                                             attrs={'class':'myDateClass', 
+                                            'placeholder':'ex: 1991-10-04'}),
+            'date_of_death': forms.DateInput(format=('%Y-%m-%d'), 
+                                             attrs={'class':'myDateClass', 
+                                            'placeholder':'ex: 1991-10-04'}),
+            #'occupations': autocomplete_light.widgets.MultipleChoiceWidget('PersonOccupationAutocomplete'),
+            
+        }
 		
 
 # class MovieForm(forms.ModelForm):
@@ -28,14 +39,33 @@ class ActorForm(forms.ModelForm):
 	# name = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=OPTIONS)
 
 class MovieForm(forms.ModelForm):
+	directors = forms.CharField(max_length=200, required=False)
+	writers = forms.CharField(max_length=200, required=False)
+	actors = forms.CharField(max_length=200, required=False)
+	producers = forms.CharField(max_length=200, required=False)
+	musicComposers = forms.CharField(max_length=200, required=False)
 	class Meta: 
 		model = Movie
-		exclude = ['timestamp', 'update']
-		autocomplete_fields = ('geners','directors','writers','actors')
+		exclude = ['timestamp', 'update', 'staff']
+		#autocomplete_fields = ('title','geners','directors','writers','actors', 'producers', 'screenplay', 'editing', 'cinematography','musicComposers')
+		autocomplete_fields = ('staff',)
+		
 		widgets = {
-            'geners': autocomplete_light.widgets.TextWidget('MovieGenerAutocomplete'),
-            'directors': autocomplete_light.widgets.TextWidget('MovieDirectorAutocomplete'),
-            'writers': autocomplete_light.widgets.TextWidget('MovieWriterAutocomplete'),
-            'actors': autocomplete_light.widgets.TextWidget('MovieActorAutocomplete'),
+			'pub_date': forms.DateInput(format=('%Y-%m-%d'), 
+                                             attrs={'class':'myDateClass', 
+                                            'placeholder':'ex: 1991-10-04'}),
+			'gener': forms.CheckboxSelectMultiple(),
+			'staff': autocomplete_light.widgets.TextWidget('MovieStaffAutocomplete'),
+			# 'title': autocomplete_light.widgets.TextWidget('MovieTitleAutocomplete'),
+   #          'geners': autocomplete_light.widgets.TextWidget('MovieGenerAutocomplete'),
+   #          'directors': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
+   #          'writers': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
+   #          'actors': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
+   #          'producers': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
+   #          'screenplays': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
+   #          'editing': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
+   #          'cinematography': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
+   #          'musicComposers': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
+
         }
 
