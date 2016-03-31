@@ -39,23 +39,26 @@ class PersonForm(forms.ModelForm):
 	# name = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=OPTIONS)
 
 class MovieForm(forms.ModelForm):
-	directors = forms.CharField(max_length=200, required=False)
-	writers = forms.CharField(max_length=200, required=False)
-	actors = forms.CharField(max_length=200, required=False)
-	producers = forms.CharField(max_length=200, required=False)
-	musicComposers = forms.CharField(max_length=200, required=False)
+	directors = forms.CharField(max_length=200, required=False, widget=autocomplete_light.widgets.TextWidget('MovieStaffAutocomplete'))
+	writers = forms.CharField(max_length=200, required=False, widget=autocomplete_light.widgets.TextWidget('MovieStaffAutocomplete'))
+	actors = forms.CharField(max_length=200, required=False, widget=autocomplete_light.widgets.TextWidget('MovieStaffAutocomplete'))
+	producers = forms.CharField(max_length=200, required=False, widget=autocomplete_light.widgets.TextWidget('MovieStaffAutocomplete'))
+	musicComposers = forms.CharField(max_length=200, required=False, widget=autocomplete_light.widgets.TextWidget('MovieStaffAutocomplete'))
+	screenplays = forms.CharField(max_length=200, required=False, widget=autocomplete_light.widgets.TextWidget('MovieStaffAutocomplete'))
+	editing = forms.CharField(max_length=200, required=False, widget=autocomplete_light.widgets.TextWidget('MovieStaffAutocomplete'))
+	cinematography = forms.CharField(max_length=200, required=False, widget=autocomplete_light.widgets.TextWidget('MovieStaffAutocomplete'))
 	class Meta: 
 		model = Movie
 		exclude = ['timestamp', 'update', 'staff']
 		#autocomplete_fields = ('title','geners','directors','writers','actors', 'producers', 'screenplay', 'editing', 'cinematography','musicComposers')
-		autocomplete_fields = ('staff',)
+		autocomplete_fields = ('directors',)
 		
 		widgets = {
 			'pub_date': forms.DateInput(format=('%Y-%m-%d'), 
                                              attrs={'class':'myDateClass', 
                                             'placeholder':'ex: 1991-10-04'}),
 			'gener': forms.CheckboxSelectMultiple(),
-			'staff': autocomplete_light.widgets.TextWidget('MovieStaffAutocomplete'),
+			#'staff': autocomplete_light.widgets.TextWidget('MovieStaffAutocomplete'),
 			# 'title': autocomplete_light.widgets.TextWidget('MovieTitleAutocomplete'),
    #          'geners': autocomplete_light.widgets.TextWidget('MovieGenerAutocomplete'),
    #          'directors': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),

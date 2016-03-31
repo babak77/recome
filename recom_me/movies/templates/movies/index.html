@@ -1,3 +1,27 @@
 {% extends 'base.html' %}
 
 {% block title %} {{ title }}  {% endblock title%}
+
+{% block content %}
+       	
+        
+<input type="number" name="your_awesome_parameter" id="some_id" class="rating"  data-icon-lib="fa" data-active-icon="fa-star" data-inactive-icon="fa-star-o" />
+
+<div class="row">
+
+    <div class="col-sm-4 col-lg-4 col-md-4">
+        <div class="thumbnail">
+        	<form method='POST' action=''> {% csrf_token %}
+	            <img src="http://placehold.it/320x150" alt="">
+	            <div class="caption">
+	                <h4 class="pull-right">$24.99</h4>
+	                <h4><a href="#">First Product</a>
+	                </h4>
+	                <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
+	            </div>
+	            <input type="number" name="movie_rating" id="some_id" class="rating"  data-icon-lib="fa" data-active-icon="fa-star" data-inactive-icon="fa-star-o" />
+	        </form>
+        </div>
+    </div>
+</div>
+{% endblock content%}

@@ -11,3 +11,6 @@ local/
 
 #pip
 pip-selfcheck.json
+
+#pickle
+*.pickle

@@ -40,14 +40,27 @@ class MovieAdmin(admin.ModelAdmin):
 		staff_list = []
 		try:
 			producers = obj.workedon_set.filter(role__title='producer')
-			for producer in directors:
-				print(producer.person.fullname)
+			for producer in producers:
+				print("producer= ",producer.person.fullname)
 				if producer.person.fullname not in staff_list:
 					staff_list.append(producer.person.fullname )
 		except:
 			pass
 
 		return ', '.join(staff_list)
+
+	# def Musiccomposer_names(self, obj):
+	# 	staff_list = []
+	# 	try:
+	# 		composers = obj.workedon_set.filter(role__title='music')
+	# 		for composer in composers:
+	# 			print("producer= ",composer.person.fullname)
+	# 			if composer.person.fullname not in staff_list:
+	# 				staff_list.append(composer.person.fullname )
+	# 	except:
+	# 		pass
+
+	# 	return ', '.join(staff_list)
 	
 	director_names.short_description = "Directors"
 	producer_names.short_description = "Producers"
