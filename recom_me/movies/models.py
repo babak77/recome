@@ -2,7 +2,10 @@ from django.db import models
 from django.utils import timezone
 #from datetime import datetime
 from django.contrib import admin
+from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 
+from .slug_snippet import unique_slugify
 # class Gener(models.Model):
 #     name = models.CharField('gener', max_length=50, blank=True, null=True)
 #     desccription = models.CharField('gener description', max_length=200, blank=True, null=True)
@@ -118,12 +121,32 @@ class Gener(models.Model):
         return self.title
 
 class Movie(models.Model):
+    id = models.AutoField(primary_key=True)
     title = models.CharField('title', max_length=200, unique=True)
     staff = models.ManyToManyField('Person', through='WorkedOn')
-    gener = models.ManyToManyField('Gener')
+    gener = models.ManyToManyField('Gener', related_name='movieGener')
+    pub_date = models.DateField( blank=True, null=True)
     wikiPageUrl = models.CharField(max_length=300, blank=True, null=True)
+    slug = models.SlugField(unique=True)
+    likes = models.ManyToManyField(User, blank= True, related_name='movieLikes')
+    description = models.TextField('description', blank=True, null=True)
     def __str__(self):
         return self.title
+
+    @property
+    def total_likes(self):
+        """
+        Likes for the Movie
+        :return: Integer: Likes for the Movie
+        """
+        return self.likes.count()
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            # Newly created object, so set slug
+            self.slug = slugify(self.title)
+            unique_slugify(self, self.slug) 
+        super(Movie, self).save(*args, **kwargs)
 
 # model in case you want to specify anything specific for roles for every person
 class Role(models.Model):
@@ -137,5 +160,20 @@ class WorkedOn(models.Model):
     person = models.ForeignKey('Person')
     movie = models.ForeignKey('Movie')
     role = models.ForeignKey('Role')
+
+# RATE_CHOICES = zip( range(1,5), range(1,5) )
+class Rating(models.Model):
+    user = models.ForeignKey(User , related_name='movieUserRating')
+    movie = models.ForeignKey(Movie)
+    rating = models.DecimalField(max_digits=2, decimal_places=1)
+    # timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+    # update = models.DateTimeField(auto_now_add=False, auto_now=True)
+
+    # def __str__(self):
+    #     return "{} rating {} {}".format(self.user,  self.rating)
+
+
+
+
 
 

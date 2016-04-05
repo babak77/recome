@@ -1,8 +1,19 @@
 from django import forms
 
-from .models import  Movie ,Person, Gener
+from .models import  Movie ,Person, Gener , Rating
 
 import autocomplete_light
+
+class RatingForm(forms.ModelForm):
+	class Meta:
+		model = Rating
+		exclude = ['timestamp', 'update', 'movie', 'user']
+		widgets = {
+			'rating' : forms.TextInput(attrs={'class':'rating', 'type': "number submit",
+											 'data-icon-lib':"fa", 'data-active-icon' :"fa-star",
+											 'data-inactive-icon':"fa-star-o"
+											})
+		}
 
 class PersonForm(forms.ModelForm):
 	class Meta:

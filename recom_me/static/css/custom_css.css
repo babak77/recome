@@ -13,3 +13,17 @@
 	font-size: 10em;
 
 }
+.p_description {
+
+	font-size: 12px;
+}
+
+.noticebox {
+
+	position: absolute;
+    display: none;
+    background:#E2E1E1;
+    padding:4px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+}

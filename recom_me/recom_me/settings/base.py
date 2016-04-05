@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     # my apps
     'contact',
     'movies',
+    'books',
 ]
 
 MIDDLEWARE_CLASSES = [

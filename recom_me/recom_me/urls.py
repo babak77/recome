@@ -31,6 +31,7 @@ urlpatterns = [
 
     url(r'^contact/', include('contact.urls')),
     url(r'^movies/', include('movies.urls')),
+    url(r'^books/', include('books.urls')),
 
     url(r'^accounts/', include('registration.backends.default.urls')),
 

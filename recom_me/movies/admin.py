@@ -8,6 +8,7 @@ class MovieAdmin(admin.ModelAdmin):
 	list_display = ('title', 'actor_names', 'director_names', 'producer_names' )
 	#fields = ['title', '']
 	# list_display = ('title','directors_names','actors_names')
+	prepopulated_fields = {'slug': ('title', )}
 	class Meta:
 		model = Movie
 	def actor_names(self, obj):
@@ -80,3 +81,4 @@ admin.site.register(Gener)
 # admin.site.register(Occupation)
 admin.site.register(Role)
 admin.site.register(WorkedOn)
+admin.site.register(Rating)

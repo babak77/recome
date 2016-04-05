@@ -1,15 +1,78 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .forms import MovieForm ,PersonForm
+from .forms import MovieForm ,PersonForm, RatingForm
 
 #from .models import Movie, Person, Gener, Occupation
 from .models import Movie, Person, WorkedOn, Role
 import pickle
+
+try:
+    from django.utils import simplejson as json
+except ImportError:
+    import json
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+
+
 # Create your views here.
+@login_required
+@require_POST
+def like(request):
+    if request.method == 'POST':
+        user = request.user
+        slug = request.POST.get('slug', None)
+        movie = get_object_or_404(Movie, slug=slug)
+
+        if movie.likes.filter(id=user.id).exists():
+            # user has already liked this movie
+            # remove like/user
+            movie.likes.remove(user)
+            message = 'You disliked this'
+        else:
+            # add a new like for a movie
+            movie.likes.add(user)
+            message = 'You liked this'
+
+    ctx = {'likes_count': movie.total_likes, 'message': message }
+    print(ctx)
+    # use mimetype instead of content_type if django < 5
+    return JsonResponse(ctx)
+    
 def index(request):
-    data = {"title":"Movie part of the web site!"}
-    print(request.POST)
+    # form = RatingForm(request.POST or None)
+    # print(form)
+    # if form.is_valid():
+    #     instance = form.save(commit=False)
+    #     print(instance)
+    # data = {"title":"Movie part of the web site!",
+    #         "movies" : Movie.objects.all(),
+    #         "form":form
+    #         }
+    
+    liked_movies=[]
+    movies = Movie.objects.all().order_by('-pub_date')
+    user = request.user
+    for movie in movies:
+        if movie.likes.filter(id=user.id).exists():
+            
+            liked_movies.append(movie)
+    data = {"title":"Movie part of the web site!",
+            "movies" : movies,
+            "liked_movies" : liked_movies,
+
+            }
     return render(request, 'movies/index.html', data)
+
+def movie_detail(request, **kwargs):
+    movie = get_object_or_404(Movie, id=kwargs.get('movie_id'))
+    context = {
+        "title":"Add Person",
+        "movie" : movie,
+    }
+    return render(request, 'movies/movie_detail.html', context)
+
 
 def addPerson(request):
     

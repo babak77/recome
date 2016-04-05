@@ -10,5 +10,39 @@
     <script src="{% static 'js/ie10-viewport-bug-workaround.js' %}"></script>
     
     <script src="{% static 'js/bootstrap-rating-input.min.js' %}"></script>
-   
+   	
+   	<script>
+$('.like').click(function(){
+      var $atr = $(this); 
+      $.ajax({
+               type: "POST",
+               url: "{% url 'like' %}",
+               data: {'slug': $atr.attr('name'), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+               
+
+               success: function(response) {
+                     
+                      if ($atr.attr( 'class') == "like fa fa-heart") {
+                        $atr.attr( 'class', 'like fa fa-heart-o' );
+                      } else {
+                        $atr.attr( 'class', 'like fa fa-heart' );
+                      }
+                      
+                },
+                error: function(rs, e) {
+
+                       $(this).attr( 'class', 'like fa fa-heart' );
+                }
+          }); 
+    })
+
+$('.noticebox').hover(function(e) {
+    $($(this).data("tooltip")).css({
+        left: e.pageX + 20,
+        top: e.pageY + 20
+    }).stop().show(100);
+}, function() {
+    $($(this).data("tooltip")).hide();
+});
+</script>
    

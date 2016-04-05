@@ -3,25 +3,41 @@
 {% block title %} {{ title }}  {% endblock title%}
 
 {% block content %}
-       	
+ 
         
-<input type="number" name="your_awesome_parameter" id="some_id" class="rating"  data-icon-lib="fa" data-active-icon="fa-star" data-inactive-icon="fa-star-o" />
+<!-- <input type="number" name="your_awesome_parameter" id="some_id" class="rating"  data-icon-lib="fa" data-active-icon="fa-star" data-inactive-icon="fa-star-o" />
+ -->
 
 <div class="row">
-
+	{% for movie in movies %}
     <div class="col-sm-4 col-lg-4 col-md-4">
         <div class="thumbnail">
-        	<form method='POST' action=''> {% csrf_token %}
+        	<!-- <form method='POST' action=''> {% csrf_token %} -->
 	            <img src="http://placehold.it/320x150" alt="">
 	            <div class="caption">
-	                <h4 class="pull-right">$24.99</h4>
-	                <h4><a href="#">First Product</a>
-	                </h4>
-	                <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
+	                <h6 class="pull-right">Publish date: {{ movie.pub_date|date:"Y" }}</h6>
+	                <h6><a href="/movies/{{ movie.id }}/{{ movie.slug }}">{{ movie.title }} </a> </h6>
+	                <p class="p_description"> {{ movie.description|default_if_none:""|truncatewords:20}} 
+	                {% if movie.description %}<a target="_blank" href="/movies/{{ movie.id }}/{{ movie.slug }}">more</a> {% endif %}
+	                </p>
 	            </div>
-	            <input type="number" name="movie_rating" id="some_id" class="rating"  data-icon-lib="fa" data-active-icon="fa-star" data-inactive-icon="fa-star-o" />
-	        </form>
+	            
+	            {% if user.is_authenticated and book in liked_books %}
+					<button type="submit" id="like" name= "{{ book.slug }}" class='like fa fa-heart'  />
+				{% else %}
+					{% if user.is_authenticated %}
+						<button type="submit" id="like" name="{{ book.slug }}" class="like fa fa-heart-o"/>
+					{% else %}
+						<button type="submit" id="dislike" name="{{ book.slug }}" disabled='true' class="disable fa fa-heart-o" />
+					{% endif %}
+				{% endif %}
+
+
+	            <!-- <input type="number" name="movie_rating" id="some_id" class="rating"  data-icon-lib="fa" data-active-icon="fa-star" data-inactive-icon="fa-star-o" /> -->
+	        <!-- </form> -->
         </div>
     </div>
+    {% endfor %}
 </div>
+
 {% endblock content%}
