@@ -11,15 +11,22 @@
 <div class="row">
 	{% for movie in movies %}
     <div class="col-sm-4 col-lg-4 col-md-4">
-        <div class="thumbnail">
+        <div class="thumbnail fixed-height shadow-box">
         	<!-- <form method='POST' action=''> {% csrf_token %} -->
-	            <img src="http://placehold.it/320x150" alt="">
+	           <!--  <img src="http://placehold.it/320x150" alt=""> -->
+	           	<div class ="text-align-center ">
+	            	<i class="glyphicon glyphicon-film custom-fa-size"></i>
+	        	</div>
 	            <div class="caption">
 	                <h6 class="pull-right">Publish date: {{ movie.pub_date|date:"Y" }}</h6>
 	                <h6><a href="/movies/{{ movie.id }}/{{ movie.slug }}">{{ movie.title }} </a> </h6>
-	                <p class="p_description"> {{ movie.description|default_if_none:""|truncatewords:20}} 
-	                {% if movie.description %}<a target="_blank" href="/movies/{{ movie.id }}/{{ movie.slug }}">more</a> {% endif %}
+	                {% if movie.description %}
+		                <p class="p_description"> {{ movie.description|default_if_none:""|truncatewords:20}} 
+		                {% if movie.description %}<a target="_blank" href="/movies/{{ movie.id }}/{{ movie.slug }}">more</a> {% endif %}
 	                </p>
+	                {% else %}
+	                	<a href="#"> No description found! </a>
+	                {% endif %}
 	            </div>
 	            
 	            {% if user.is_authenticated and book in liked_books %}
@@ -28,7 +35,7 @@
 					{% if user.is_authenticated %}
 						<button type="submit" id="like" name="{{ book.slug }}" class="like fa fa-heart-o"/>
 					{% else %}
-						<button type="submit" id="dislike" name="{{ book.slug }}" disabled='true' class="disable fa fa-heart-o" />
+						<button type="submit" id="dislike" name="{{ book.slug }}"  class="fa fa-heart-o" title="Login to enable like!" data-toggle="tooltip" /> 
 					{% endif %}
 				{% endif %}
 
@@ -38,6 +45,22 @@
         </div>
     </div>
     {% endfor %}
+    <div class="col-sm-4 col-lg-4 col-md-4">
+        <div class="thumbnail fixed-height text-align-center shadow-box">
+        	
+            {% if user.is_authenticated %}
+            <a href="{% url 'addperson' %}" >
+            	<i class="fa fa-plus-circle fa-4x masterTooltip" title="Add new book." ></i></a>
+	        {% else %}
+
+	        	<i class="fa fa-plus-circle fa-4x" data-toggle="tooltip" title="Login to add new book."></i>
+
+	        	<!-- TODO : if not login first login and then redirect to addperson -->
+	        {% endif %}
+	            
+       
+        </div>
+    </div>
 </div>
 
 {% endblock content%}

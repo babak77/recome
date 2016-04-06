@@ -7,6 +7,7 @@
 
 .text-align-center {
 	text-align: center;
+
 }
 
 .custom-fa-size {
@@ -18,12 +19,42 @@
 	font-size: 12px;
 }
 
-.noticebox {
+/* My custome tooltip for mouseover but it take time to show
+/*.tooltip {
+	display:none;
+	position:absolute;
+	border:1px solid #333;
+	background-color:#161616;
+	border-radius:5px;
+	padding:10px;
+	color:#fff;
+	font-size:12px Arial;
+}*/
 
-	position: absolute;
-    display: none;
-    background:#E2E1E1;
-    padding:4px;
-    -moz-border-radius: 7px;
-    border-radius: 7px;
+ #hintbox{
+    display:none;
+    position: absolute;
+    font-size: 10px;
+    background-color: #161616;
+    color: #fff;
+    /*border: 1px solid red;*/
+    padding: 8px;
+    border-radius:7px;
+    font-family: Arial, Helvetica, sans-serif;
+  }  
+
+
+.fixed-height {
+	display:block;
+    height:292px;
+
+}
+a {
+	text-decoration: none !important;
+}
+
+.fa-plus-circle { margin-top: 110px; }
+
+.shadow-box {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
