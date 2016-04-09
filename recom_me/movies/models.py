@@ -111,9 +111,17 @@ class Person(models.Model):
     biography = models.TextField(blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
     update = models.DateTimeField(auto_now_add=False, auto_now=True)
+    slug = models.SlugField(unique=True)
     def __str__(self):
         #fullname = self.firstname + " " + self.lastname
         return self.fullname
+    def save(self, *args, **kwargs):
+        if not self.id:
+            # Newly created object, so set slug
+            self.slug = slugify(self.fullname)
+            unique_slugify(self, self.slug) 
+        super(Person, self).save(*args, **kwargs)
+
 class Gener(models.Model):
     title = models.CharField('gener', max_length=50, blank=True, null=True)
     desccription = models.CharField('gener description', max_length=200, blank=True, null=True)
@@ -126,7 +134,7 @@ class Movie(models.Model):
     staff = models.ManyToManyField('Person', through='WorkedOn')
     gener = models.ManyToManyField('Gener', related_name='movieGener')
     pub_date = models.DateField( blank=True, null=True)
-    wikiPageUrl = models.CharField(max_length=300, blank=True, null=True)
+    wikiPageUrl = models.CharField(max_length=300, blank=True, null=True, verbose_name='wikipedia page')
     slug = models.SlugField(unique=True)
     likes = models.ManyToManyField(User, blank= True, related_name='movieLikes')
     description = models.TextField('description', blank=True, null=True)

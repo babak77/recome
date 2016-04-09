@@ -58,22 +58,22 @@ from .models import Movie, Person
 #         'class': 'modern-style',
 #     },
 # )
-# al.register(Movie,
-#     name = "MovieTitleAutocomplete",
-#     search_fields=['title'],
-#     #choices = Movie.objects.all(),
-#     attrs={
-#         # This will set the input placeholder attribute:
-#         'placeholder': '',
-#         # This will set the yourlabs.Autocomplete.minimumCharacters
-#         # options, the naming conversion is handled by jQuery
-#         'data-autocomplete-minimum-characters': 1,
-#     },
-#     widget_attrs={
-#         'data-widget-maximum-values': 4,
-#         'class': 'modern-style',
-#     },
-# )
+al.register(Movie,
+    name = "MovieTitleAutocomplete",
+    search_fields=['title'],
+    choices = Movie.objects.all(),
+    attrs={
+        # This will set the input placeholder attribute:
+        'placeholder': '',
+        # This will set the yourlabs.Autocomplete.minimumCharacters
+        # options, the naming conversion is handled by jQuery
+        'data-autocomplete-minimum-characters': 1,
+    },
+    widget_attrs={
+        'data-widget-maximum-values': 4,
+        'class': 'modern-style',
+    },
+)
 
 al.register(Movie,
     name = "MovieStaffAutocomplete",

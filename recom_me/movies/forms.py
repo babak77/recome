@@ -18,7 +18,7 @@ class RatingForm(forms.ModelForm):
 class PersonForm(forms.ModelForm):
 	class Meta:
 		model = Person
-		exclude = ['timestamp', 'update']
+		exclude = ['timestamp', 'update', 'slug']
 		# fields = ['firstname','lastname', 'gender', 'occupations','age', 'date_of_birth', 'date_of_death', 
 		# 			'place_of_birth', 'place_of_death', 'biography']
 		widgets = {
@@ -60,9 +60,11 @@ class MovieForm(forms.ModelForm):
 	cinematography = forms.CharField(max_length=200, required=False, widget=autocomplete_light.widgets.TextWidget('MovieStaffAutocomplete'))
 	class Meta: 
 		model = Movie
-		exclude = ['timestamp', 'update', 'staff']
-		#autocomplete_fields = ('title','geners','directors','writers','actors', 'producers', 'screenplay', 'editing', 'cinematography','musicComposers')
-		autocomplete_fields = ('directors',)
+		exclude = ['timestamp', 'update', 'staff', 'likes', 'slug']
+		fields = [ 'title', 'gener', 'pub_date', 'directors', 'actors', 'writers', 'producers', 
+					'musicComposers', 'screenplays', 'editing', 'cinematography', 'description' ]
+		autocomplete_fields = ('title','directors','writers','actors', 'producers', 'screenplay', 'editing', 'cinematography','musicComposers')
+		#autocomplete_fields = ('directors',)
 		
 		widgets = {
 			'pub_date': forms.DateInput(format=('%Y-%m-%d'), 
@@ -70,16 +72,16 @@ class MovieForm(forms.ModelForm):
                                             'placeholder':'ex: 1991-10-04'}),
 			'gener': forms.CheckboxSelectMultiple(),
 			#'staff': autocomplete_light.widgets.TextWidget('MovieStaffAutocomplete'),
-			# 'title': autocomplete_light.widgets.TextWidget('MovieTitleAutocomplete'),
-   #          'geners': autocomplete_light.widgets.TextWidget('MovieGenerAutocomplete'),
-   #          'directors': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
-   #          'writers': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
-   #          'actors': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
-   #          'producers': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
-   #          'screenplays': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
-   #          'editing': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
-   #          'cinematography': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
-   #          'musicComposers': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
+			'title': autocomplete_light.widgets.TextWidget('MovieTitleAutocomplete'),
+            #'geners': autocomplete_light.widgets.TextWidget('MovieGenerAutocomplete'),
+            # 'directors': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
+            # 'writers': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
+            # 'actors': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
+            # 'producers': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
+            # 'screenplays': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
+            # 'editing': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
+            # 'cinematography': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
+            # 'musicComposers': autocomplete_light.widgets.TextWidget('MovieAutocomplete'),
 
         }
 

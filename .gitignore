@@ -7,7 +7,7 @@ build/
 include/
 lib/
 local/
-.pyc
+*.pyc
 
 #pip
 pip-selfcheck.json
