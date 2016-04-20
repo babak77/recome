@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
@@ -9,8 +10,8 @@ from .slug_snippet import unique_slugify
 class Person(models.Model):
     id = models.AutoField(primary_key=True)
     fullname = models.CharField('Full name', max_length=200 , unique=True)
-    firstname = models.CharField('first name', max_length=200)
-    lastname = models.CharField('last name', max_length=200)
+    firstname = models.CharField('first name', max_length=200, blank=True, null=True)
+    lastname = models.CharField('last name', max_length=200, blank=True, null=True)
     gender_list = (('M', 'Male'), ('F', 'Female'))
     gender = models.CharField(max_length=1, choices=gender_list, blank=True, null=True)
     age = models.PositiveIntegerField(blank=True, null=True)
@@ -32,7 +33,7 @@ class Person(models.Model):
             # Newly created object, so set slug
             self.slug = slugify(self.fullname)
             unique_slugify(self, self.slug) 
-        super(Movie, self).save(*args, **kwargs)
+        super(Person, self).save(*args, **kwargs)
 
 
 class Gener(models.Model):
@@ -41,18 +42,41 @@ class Gener(models.Model):
     def __str__(self):
         return self.title
 
+def get_lang_choices():
+    lang_list = (('en', 'English'), ('de', 'German'), ('fr', 'French'), ('fa', 'farsi'), ('la', 'Latin'), ('nl', 'Dutch'), ('ar', 'Arabic'),
+        ('el','Greek'),('sq','Albanian'), ('lt','Lithuanian'),('hu', 'Hungarian'), ('it','Italian'), ('ga','Irish'), ('ku', 'Kurdish'), ('pt', 'Portuguese'),
+        ('ru','Russian'), ('sa', 'Sanskrit'), ('es', 'Spanish'), ('tr', 'Turkish'), ('ur','Urdu'), ('th','Thai') )
+    sorted_lang = sorted(lang_list, key=lambda x: x[1])
+    return sorted_lang
+
 class Book(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField('title', max_length=200, unique=True)
+    Original_title = models.CharField('Original title', max_length=200, blank=True, null=True)
     staff = models.ManyToManyField('Person', through='WorkedOn')
     gener = models.ManyToManyField('Gener', related_name='bookGener')
     pub_date = models.DateField( blank=True, null=True)
+    publisher = models.CharField('Publisher', max_length=200,  blank=True, null=True)
+    isbn = models.CharField('ISBN', max_length=200,  blank=True, null=True)
+    pages = models.CharField('Pages', max_length=200,  blank=True, null=True)
+    translator = models.CharField('Translator', max_length=200,  blank=True, null=True)
+    release_year = models.PositiveIntegerField('Realese Year', validators=[MaxValueValidator(9999)],  blank=True, null=True)
+
+    language = models.CharField(max_length=2, choices=get_lang_choices(), blank=True, null=True)
+    main_language = models.CharField(max_length=2, choices=get_lang_choices(), blank=True, null=True)
+
     wikiPageUrl = models.CharField(max_length=300, blank=True, null=True, verbose_name='wikipedia page')
     slug = models.SlugField(unique=True)
     likes = models.ManyToManyField(User, blank= True, related_name='bookLikes')
     description = models.TextField('description', blank=True, null=True)
     def __str__(self):
         return self.title
+
+    @property
+    def get_authors(self):
+        #print(self.workedon_set.filter(role__title='Author'))
+        return self.workedon_set.filter(role__title='Author') 
+
 
     @property
     def total_likes(self):
@@ -67,7 +91,7 @@ class Book(models.Model):
 
         # Newly created object, so set slug
         self.slug = slugify(self.title)
-        print(self.slug)
+        #print(self.slug)
         unique_slugify(self, self.slug) 
         super(Book, self).save(*args, **kwargs)
 

@@ -14,3 +14,6 @@ pip-selfcheck.json
 
 #pickle
 *.pickle
+
+# JSON
+*.json

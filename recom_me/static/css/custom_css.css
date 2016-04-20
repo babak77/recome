@@ -18,6 +18,9 @@
 
 	font-size: 12px;
 }
+.search-box {
+	padding : 10px;
+}
 
 /* My custome tooltip for mouseover but it take time to show
 /*.tooltip {
@@ -46,11 +49,15 @@
 
 .fixed-height {
 	display:block;
-    height:292px;
+    height:310px;
 
 }
 a {
 	text-decoration: none !important;
+}
+
+#book_like #movie_like {
+	position: absolute; bottom: 30px; left: 30px;
 }
 
 .fa-plus-circle { margin-top: 110px; }

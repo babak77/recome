@@ -14,11 +14,17 @@
    	<script>
 
  /* change the color of the LIKE button and send data in order to add it to the database */
+
 $('.like').click(function(){
       var $atr = $(this); 
+      if ($atr.attr( 'id') == "movie_like"){
+        var $url = "{% url 'Movie_like' %}";
+      }else if ($atr.attr( 'id') == "book_like"){
+        var $url = "{% url 'Book_like' %}";
+      }
       $.ajax({
                type: "POST",
-               url: "{% url 'like' %}",
+               url: $url,
                data: {'slug': $atr.attr('name'), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
                success: function(response) {
                       if ($atr.attr( 'class') == "like fa fa-heart") {

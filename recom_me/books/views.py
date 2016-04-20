@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 
 from .forms import *
 from .models import *
@@ -38,12 +40,34 @@ def like(request):
 def index(request):
         
     liked_books=[]
-    books = Book.objects.all().order_by('-pub_date')
+    book_list = Book.objects.all().order_by('-pub_date')
+    query = request.GET.get('query')
+    if query:
+        book_list = book_list.filter(
+            Q(title__icontains=query) |
+            Q(Original_title__icontains=query) | 
+            Q(publisher__icontains=query) |
+            Q(staff__fullname__icontains=query) | 
+            Q(release_year__icontains=query)
+            ).distinct()
+
     user = request.user
-    for book in books:
+    for book in book_list:
         if book.likes.filter(id=user.id).exists():
-            
             liked_books.append(book)
+
+    paginator = Paginator(book_list, 12) # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    try:
+        books = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        books = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        books = paginator.page(paginator.num_pages)
+
     data = {"title":"Book part of the web site!",
             "books" : books,
             "liked_books" : liked_books,
@@ -56,6 +80,7 @@ def book_detail(request, **kwargs):
     context = {
         "title":"Book detail",
         "book" : book,
+        "author" : book.get_authors,
     }
     return render(request, 'books/book_detail.html', context)
 

@@ -25,17 +25,17 @@
 		                {% if movie.description %}<a target="_blank" href="/movies/{{ movie.id }}/{{ movie.slug }}">more</a> {% endif %}
 	                </p>
 	                {% else %}
-	                	<a href="#"> No description found! </a>
+	                	<p> No description found! </p>
 	                {% endif %}
 	            </div>
 	            
-	            {% if user.is_authenticated and book in liked_books %}
-					<button type="submit" id="like" name= "{{ book.slug }}" class='like fa fa-heart'  />
+	            {% if user.is_authenticated and movie in liked_movies %}
+					<button type="submit" id="movie_like" name= "{{ movie.slug }}" class='like fa fa-heart'  />
 				{% else %}
 					{% if user.is_authenticated %}
-						<button type="submit" id="like" name="{{ book.slug }}" class="like fa fa-heart-o"/>
+						<button type="submit" id="movie_like" name="{{ movie.slug }}" class="like fa fa-heart-o"/>
 					{% else %}
-						<button type="submit" id="dislike" name="{{ book.slug }}"  class="fa fa-heart-o" title="Login to enable like!" data-toggle="tooltip" /> 
+						<button type="submit" id="movie_dislike" name="{{ movie.slug }}"  class="fa fa-heart-o" title="Login to enable like!" data-toggle="tooltip" /> 
 					{% endif %}
 				{% endif %}
 
@@ -50,10 +50,10 @@
         	
             {% if user.is_authenticated %}
             <a href="{% url 'addmovie' %}" >
-            	<i class="fa fa-plus-circle fa-4x masterTooltip" title="Add new book." ></i></a>
+            	<i class="fa fa-plus-circle fa-4x masterTooltip" title="Add new Movie." ></i></a>
 	        {% else %}
 
-	        	<i class="fa fa-plus-circle fa-4x" data-toggle="tooltip" title="Login to add new book."></i>
+	        	<i class="fa fa-plus-circle fa-4x" data-toggle="tooltip" title="Login to add new Movie."></i>
 
 	        	<!-- TODO : if not login first login and then redirect to addperson -->
 	        {% endif %}

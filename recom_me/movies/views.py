@@ -109,9 +109,16 @@ def addMovie(request):
         print(form.cleaned_data)
         # === add Movie
         title = form.cleaned_data.get('title', None)
+        description = form.cleaned_data.get('description', None)
+        pub_date = form.cleaned_data.get('pub_date', None)
+        geners = form.cleaned_data.get('gener', None)
         if not Movie.objects.filter(title__iexact = title).exists():
-                movie = Movie(title = title)
+                movie = Movie(title = title, description = description, pub_date = pub_date)
                 movie.save()
+                
+                for gener in geners:
+                    movie.gener.add(gener)
+                
         else: 
             movie = Movie.objects.get(title = title)
 
@@ -205,6 +212,7 @@ def addMovie(request):
                     workon = WorkedOn(person = person , movie = movie, role = role )
                     workon.save()
 
+        
         # occupations = form.cleaned_data.get('occupations', None)
         # if occupations is not None:
         #     for occupation in occupations.split(","):

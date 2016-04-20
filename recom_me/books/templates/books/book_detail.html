@@ -3,6 +3,34 @@
 {% block title %} {{ block.super }} | {{ title }}  {% endblock title%}
 
 {% block content %}
+<h3> {{ book.title }}</h3>
+<h5>Original title: </h5>
+<p>&emsp;&emsp;&emsp;&emsp;{% if book.Original_title  %} {{ book.Original_title }} {% else %}  {% endif %}</p>
+<h5>Gener : </h5>
+<p>{% for gener in book.gener.all %} &emsp;&emsp;&emsp;&emsp;{{ gener }}<br/>{% endfor %}</p>
 
+<h5>Author: </h5>
+<p>&emsp;&emsp;&emsp;&emsp;{% for item in book.get_authors %} 
+        <a class="a_authors" href="/books/{{ item.person.id }}/{{ item.person.slug }}">{{ item.person.fullname }}{% if not forloop.last %}, {% endif %}
+        </a> 
+    {% endfor %}</p>
+
+<h5>Publisher: </h5>
+<p>&emsp;&emsp;&emsp;&emsp;{% if book.publisher != None %} {{ book.publisher }} {% else %} N/A {% endif %}</p>
+
+<h5>Number of Pages: </h5>
+<p>&emsp;&emsp;&emsp;&emsp;{% if book.pages != None %} {{ book.pages }} {% else %} N/A {% endif %}</p>
+
+<h5>Release Year: </h5>
+<p>&emsp;&emsp;&emsp;&emsp;{% if book.release_year != None %} {{ book.release_year }} {% else %} N/A {% endif %}</p>
+
+<h5>Language : </h5>
+<p>&emsp;&emsp;&emsp;&emsp;{% if book.language != None %} {{ book.language }} {% else %} N/A {% endif %}</p>
+
+<h5>Wikipedia Page: </h5>
+<p>&emsp;&emsp;&emsp;&emsp;{% if book.wikiPageUrl %} <a href='https://en.wikipedia.org/wiki/index.html?curid={{ book.wikiPageUrl }}'> https://en.wikipedia.org/wiki/index.html?curid={{ book.wikiPageUrl }} </a> {% else %} N/A {% endif %}</p>
+
+<h5>Description: </h5>
+<p>&emsp;&emsp;&emsp;&emsp;{% if book.description != None %} {{ book.description }} {% else %} N/A {% endif %}</p>
 
 {% endblock content%}

@@ -9,6 +9,6 @@ urlpatterns = [
     url(r'^addbook/$', views.addBook, name='addbook'),
     url(r'^(?P<book_id>[0-9]+)/(?P<slug>[^\.]+)/$', views.book_detail, name='book_detail'),
 
-    url(r'^like/$', views.like, name='like'),
+    url(r'^like/$', views.like, name='Book_like'),
     
 ]

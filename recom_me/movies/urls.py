@@ -9,6 +9,6 @@ urlpatterns = [
     url(r'^addmovie/$', views.addMovie, name='addmovie'),
     url(r'^(?P<movie_id>[0-9]+)/(?P<slug>[^\.]+)/$', views.movie_detail, name='movie_detail'),
 
-    url(r'^like/$', views.like, name='like'),
+    url(r'^like/$', views.like, name='Movie_like'),
     
 ]
